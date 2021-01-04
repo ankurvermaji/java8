@@ -1,0 +1,16 @@
+How to remove duplicate elements in ArrayList
+https://howtodoinjava.com/java/collections/arraylist/remove-duplicate-elements/
+List<Integer> al =new ArrayList<Integer>();
+	al.add(10);
+	al.add(20);
+	al.add(30);
+	al.add(10);
+	List<Integer> listWithoutDuplicates=al.stream().distinct().collect(Collectors.toList());
+	System.out.println("element "+listWithoutDuplicates);
+  =======
+    LinkedHashSet<Integer> hashSet = new LinkedHashSet<>(al);
+      
+      ArrayList<Integer> listWithoutDuplicates1 = new ArrayList<>(hashSet);
+       
+      System.out.println(listWithoutDuplicates1);
+      ++++++++++
