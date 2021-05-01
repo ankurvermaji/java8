@@ -1,0 +1,574 @@
+1)  What are new features which got introduced in Java 8?
+There are lots of new features which were added in Java 8. Here is the list of important features
+Lambda Expression
+Stream API
+Default methods in the interface
+Functional Interface
+Optional
+Method reference
+Date API
+
+2.) What is lambda expression?
+Lambda expression is anonymous function which have set of parameters and a lambda (->) and a function body .You can call it function without name.
+public class Test1 {
+	
+	public static void main(String args[])
+	{
+		// old way
+		  new Thread(new Runnable() {
+		   @Override
+		   public void run() {
+		    System.out.println("Thread is started");
+		   }
+		  }).start();
+		  // using lambda Expression
+		  new Thread(()->System.out.println("Thread is started")).start();
+	}
+
+}
+
+5) What are functional interfaces?
+Functional interfaces are those interfaces which can have only one abstract method.It can have static method, default methods or can override Object’s class methods.
+There are many functional interfaces already present in java such as Comparable, Runnable.
+As we have only one method in Runnable, hence it is considered as functional interface.
+
+6) How lambda expression and functional interfaces are related?
+Lambda expressions can only be applied to abstract method of functional interface.
+public interface Printable {
+	 
+    void print();
+    default void printColor()
+    {
+        System.out.println("Printing Color copy");
+    }
+}
+public class Test1 {
+	
+	 public static void main(String[] args)
+	    {
+		 Test1 pMain=new Test1();
+	        pMain.printForm(() -> System.out.println("Printing form"));
+	    }
+	 
+	    public void printForm(Printable p)
+	    {
+	        p.print();
+	    }
+
+}
+
+What is method reference in java 8?
+Method reference is used refer method of functional interface. It is nothing but compact way of lambda expression.You can simply replace lambda expression with method reference.
+Syntax:
+class::methodname
+package java8demo;
+
+import java.util.Arrays;
+import java.util.List;
+import java.util.function.Consumer;
+
+public class Test1 {
+		 
+	    public static void main(String args[])
+	    {
+	        List<String> countryList=Arrays.asList(new String[] {"India", "China","Nepal","Russia"});
+	 
+	        System.out.println("=======================");
+	        System.out.println("Using anonymous class");
+	        System.out.println("=======================");
+	 
+	        // Using anonymous class
+	        countryList.stream().forEach(
+	                new Consumer<String>() {
+	 
+	                    @Override
+	                    public void accept(String country) {
+	                        System.out.println(country);    
+	                    }
+	                });
+	 
+	        System.out.println("=======================");
+	        System.out.println("Using lambda expression");
+	        System.out.println("=======================");
+	 
+	     // Using lambda expression
+	        countryList.stream().forEach(
+	                country -> System.out.println(country)
+	                );
+	 
+	        System.out.println("=======================");
+	        System.out.println("Using Method references");
+	        System.out.println("=======================");
+	 
+	      // Using method reference
+	        countryList.stream().forEach(
+	                System.out::println
+	            );
+	    }   
+	}
+
+ What is Optional? Why and how can you use it?
+Java 8 has introduced new class Called Optional. This class is basically introduced to avoid NullPointerException in java.
+Optional class encapsulates optional value which is either present or not.
+It is a wrapper around object and can be use to avoid NullPointerExceptions.
+Let’s take a simple example
+//Java program with Optional Class
+import java.util.Optional;
+public class Test2{
+	public static void main(String[] args) {
+		String[] words = new String[10];
+		Optional<String> checkNull =
+					Optional.ofNullable(words[5]);
+		if (checkNull.isPresent()) {
+			String word = words[5].toLowerCase();
+			System.out.print(word);
+		} else
+			System.out.println("word is null");
+	}
+}
+What are defaults methods?
+Default method are those methods in interface which have body and use default keywords.Default method are introduced in Java 8 mainly because of backward compatibility.
+https://www.geeksforgeeks.org/two-interfaces-methods-signature-different-return-types/
+
+ What is the difference between Predicate and Function?
+Both are functional interfaces.
+Predicate<T> is single argument function and either it returns true or false.This can be used as the assignment target for a lambda expression or method reference.
+
+Function<T,R> is also single argument function but it returns an Object.Here T denotes type of input to the function and R denotes type of Result.
+
+This can also be used as the assignment target for a lambda expression or method reference.
+
+Predicate definition
+Predicate methods example
+test()
+and()
+or()
+negate()
+isEqual()
+Filter list using Predicate
+Predicate definition
+Predicate is single argument functional interface which returns true or false. It takes one argument and returns result in form of true or false.
+
+
+      // Using anonymous class
+        Predicate<Integer> predicate=new Predicate<Integer>() {
+ 
+            @Override
+            public boolean test(Integer i) {
+                return i > 100;
+            }
+        };
+ 
+        // Using lambda expression
+        Predicate<Integer> predicate = i -> i > 100;
+
+
+package org.arpit.java2blog;
+ 
+import java.util.function.Predicate;
+ 
+public class Java8PredicateExample {
+ 
+    public static void main(String[] args) {
+        Predicate<Integer> predicate = i -> i > 100;
+        boolean greaterCheck = predicate.test(200);
+        System.out.println("is 200 greater than 100: "+greaterCheck);
+    }
+}
+
+ Are you aware of Date and Time API introduced in Java 8? What the issues with Old Date and time API?
+Issues with old Date and TIme API:
+
+Thread Safety: You might be already aware that java.util.Date is mutable and not thread safe. Even java.text.SimpleDateFormat is also not Thread-Safe. New Java 8 date and time APIs are thread safe.
+
+Performance: Java 8 ‘s new APIs are better in performance than old Java APIs
+More Readable: Old APIs such Calendar and Date are poorly designed and hard to understand. Java 8 Date and Time APIs are easy to understand and comply with ISO standards.
+
+
+ Do we have PermGen in Java 8? Are you aware of MetaSpace?
+Until Java 7, JVM used an area called PermGen to store classes. It got removed in Java 8 and replaced by MetaSpace.
+Major advantage of MetaSpace over permgen:
+PermGen was fixed in term of mazimum size and can not grow dynamically but Metaspace can grow dynamically and do not have any size constraint
+
+
+ 
+package org.arpit.java2blog;
+ 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
+ 
+public class MaximumUsingStreamMain {
+    public static void main(String args[])
+    {
+        List<Employee> employeeList = createEmployeeList();
+        List<String> employeeFilteredList = employeeList.stream()
+                  .filter(e->e.getAge()>20)
+                  .map(Employee::getName)
+                  .collect(Collectors.toList());
+ 
+        employeeFilteredList.forEach((name)-> System.out.println(name));
+ 
+    }
+ 
+    public static List<Employee> createEmployeeList()
+    {
+        List<Employee> employeeList=new ArrayList<>();
+ 
+        Employee e1=new Employee("John",21);
+        Employee e2=new Employee("Martin",19);
+        Employee e3=new Employee("Mary",31);
+        Employee e4=new Employee("Stephan",18);
+        Employee e5=new Employee("Gary",26);
+ 
+        employeeList.add(e1);
+        employeeList.add(e2);
+        employeeList.add(e3);
+        employeeList.add(e4);
+        employeeList.add(e5);
+ 
+        return employeeList;
+    }
+}
+
+ Given the list of employees, count number of employees with age 25?
+
+List<Employee> employeeList = createEmployeeList();
+long count = employeeList.stream()
+.filter(e->e.getAge()>25)
+.count();
+System.out.println("Number of employees with age 25 are : "+count);
+
+
+ Given the list of employees, find the employee with name “Mary”
+
+List<Employee> employeeList = createEmployeeList();
+        Optional<Employee> e1 = employeeList.stream()
+                  .filter(e->e.getName().equalsIgnoreCase("Mary")).findAny();
+ 
+        if(e1.isPresent())
+            System.out.println(e1.get());
+
+Given a list of employee, find maximum age of employee?
+List<Employee> employeeList = createEmployeeList();
+        OptionalInt max = employeeList.stream().
+                          mapToInt(Employee::getAge).max();
+ 
+        if(max.isPresent())
+            System.out.println("Maximum age of Employee: "+max.getAsInt());
+
+Join the all employee names with “,” using java 8?
+ 
+  List<Employee> employeeList = createEmployeeList();
+        List<String> employeeNames = employeeList
+                                     .stream()
+                                     .map(Employee::getName)
+                                     .collect(Collectors.toList());
+        String employeeNamesStr = String.join(",", employeeNames);
+        System.out.println("Employees are: "+employeeNamesStr);
+
+Given the list of employee, group them by employee name?
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
+ 
+public class MaximumUsingStreamMain {
+    public static void main(String args[])
+    {
+        List<Employee> employeeList = createEmployeeList();
+        Map<String, List<Employee>> map = employeeList.stream()
+                                              .collect(Collectors.groupingBy(Employee::getName));
+        map.forEach((name,employeeListTemp)->System.out.println("Name: "+name+" ==>"+employeeListTemp));
+    }
+ 
+    public static List<Employee> createEmployeeList()
+    {
+        List<Employee> employeeList=new ArrayList<>();
+ 
+        Employee e1=new Employee("John",21);
+        Employee e2=new Employee("Martin",19);
+        Employee e3=new Employee("Mary",31);
+        Employee e4=new Employee("Mary",18);
+        Employee e5=new Employee("John",26);
+ 
+        employeeList.add(e1);
+        employeeList.add(e2);
+        employeeList.add(e3);
+        employeeList.add(e4);
+        employeeList.add(e5);
+ 
+        return employeeList;
+    }
+}
+
+
+29) What is consumer function interface?
+Answer:
+Consumer is single argument functional interface which does not return any value.
+When we are using foreach in above example, we are actually passing Consumer functional interface to it.
+
+Read Java 8 consumer
+
+30) What is supplier function interface?
+Answer:
+Supplier is function interface which does not take any parameter but returns the value using get method.
+
+Read Java 8 supplier
+
+Difference between Intermediate and terminal operations in Stream?
+Answer:
+Java 8 Stream supports both intermediate and terminal operation.
+
+Intermediate operations are lazy in nature and do not get executed immediately. Terminal operations are not lazy, they are executed as soon as encountered. Intermediate operation is memorized and is called when terminal operation is called.
+
+All Intermediate operations return stream as it just transforms stream into another and terminal operation don’t.
+
+Example of Intermediate operations are:
+
+filter(Predicate)
+map(Function)
+flatmap(Function)
+sorted(Comparator)
+distinct()
+limit(long n)
+skip(long n)
+Example of terminal operations are :
+
+forEach
+toArray
+reduce
+collect
+min
+max
+count
+anyMatch
+allMatch
+noneMatch
+findFirst
+findAny
+
+24) Given the list of numbers, remove the duplicate elements from the list.
+Answer:
+You can simply use stream and then collect it to set using Collections.toSet() method.
+
+
+ 
+package org.arpit.java2blog;
+ 
+import java.util.Arrays;
+import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
+ 
+public class RemoveDuplicatesFromListMain {
+    public static void main(String[] args)
+    {
+        Integer[] arr=new Integer[]{1,2,3,4,3,2,4,2};
+        List<Integer> listWithDuplicates = Arrays.asList(arr);
+ 
+        Set<Integer> setWithoutDups = listWithDuplicates.stream().collect(Collectors.toSet());
+        setWithoutDups.forEach((i)->System.out.print(" "+i));
+    }
+}
+ 
+You can use distinct as well to avoid duplicates as following.
+change main method of above program as below.
+
+ 
+Integer[] arr=new Integer[]{1,2,3,4,3,2,4,2};
+        List<Integer> listWithDuplicates = Arrays.asList(arr);
+List<Integer> listWithoutDups = listWithDuplicates.stream().distinct().collect(Collectors.toList());
+        listWithoutDups.forEach((i)->System.out.print(" "+i));
+ 
+
+25) Difference between Stream’s findFirst() and findAny()?
+findFirst will always return the first element from the stream whereas findAny is allowed to choose any element from the stream.
+findFirst has deterministic behavior whereas findAny is nondeterministic behavior.
+
+
+Java 8 Interface Changes – default method and static method
+BY CHAITANYA SINGH | FILED UNDER: JAVA 8 FEATURES
+
+Prior to java 8, interface in java can only have abstract methods. All the methods of interfaces are public & abstract by default. Java 8 allows the interfaces to have default and static methods. The reason we have default methods in interfaces is to allow the developers to add new methods to the interfaces without affecting the classes that implements these interfaces.
+
+Why default method?
+For example, if several classes such as A, B, C and D implements an interface XYZInterface then if we add a new method to the XYZInterface, we have to change the code in all the classes(A, B, C and D) that implements this interface. In this example we have only four classes that implements the interface which we want to change but imagine if there are hundreds of classes implementing an interface then it would be almost impossible to change the code in all those classes. This is why in java 8, we have a new concept “default methods”. These methods can be added to any existing interface and we do not need to implement these methods in the implementation classes mandatorily, thus we can add these default methods to existing interfaces without breaking the code.
+
+We can say that concept of default method is introduced in java 8 to add the new methods in the existing interfaces in such a way so that they are backward compatible. Backward compatibility is adding new features without breaking the old code.
+
+Static methods in interfaces are similar to the default methods except that we cannot override these methods in the classes that implements these interfaces.
+
+Java 8 Example: Default method in Interface
+The method newMethod() in MyInterface is a default method, which means we need not to implement this method in the implementation class Example. This way we can add the default methods to existing interfaces without bothering about the classes that implements these interfaces.
+
+interface MyInterface{  
+    /* This is a default method so we need not
+     * to implement this method in the implementation 
+     * classes  
+     */
+    default void newMethod(){  
+        System.out.println("Newly added default method");  
+    }  
+    /* Already existing public and abstract method
+     * We must need to implement this method in 
+     * implementation classes.
+     */
+    void existingMethod(String str);  
+}  
+public class Example implements MyInterface{ 
+	// implementing abstract method
+    public void existingMethod(String str){           
+        System.out.println("String is: "+str);  
+    }  
+    public static void main(String[] args) {  
+    	Example obj = new Example();
+    	
+    	//calling the default method of interface
+        obj.newMethod();     
+        //calling the abstract method of interface
+        obj.existingMethod("Java 8 is easy to learn"); 
+  
+    }  
+}
+Output:
+
+Newly added default method
+String is: Java 8 is easy to learn
+Java 8 Example: Static method in Interface
+As mentioned above, the static methods in interface are similar to default method so we need not to implement them in the implementation classes. We can safely add them to the existing interfaces without changing the code in the implementation classes. Since these methods are static, we cannot override them in the implementation classes.
+
+interface MyInterface{  
+    /* This is a default method so we need not
+     * to implement this method in the implementation 
+     * classes  
+     */
+    default void newMethod(){  
+        System.out.println("Newly added default method");  
+    }  
+    
+    /* This is a static method. Static method in interface is
+     * similar to default method except that we cannot override 
+     * them in the implementation classes.
+     * Similar to default methods, we need to implement these methods
+     * in implementation classes so we can safely add them to the 
+     * existing interfaces.
+     */
+    static void anotherNewMethod(){
+    	System.out.println("Newly added static method");
+    }
+    /* Already existing public and abstract method
+     * We must need to implement this method in 
+     * implementation classes.
+     */
+    void existingMethod(String str);  
+}  
+public class Example implements MyInterface{ 
+	// implementing abstract method
+    public void existingMethod(String str){           
+        System.out.println("String is: "+str);  
+    }  
+    public static void main(String[] args) {  
+    	Example obj = new Example();
+    	
+    	//calling the default method of interface
+        obj.newMethod();     
+        //calling the static method of interface
+        MyInterface.anotherNewMethod();
+        //calling the abstract method of interface
+        obj.existingMethod("Java 8 is easy to learn"); 
+        
+  
+    }  
+}
+Output:
+
+Newly added default method
+Newly added static method
+String is: Java 8 is easy to learn
+Java 8 – Abstract classes vs interfaces
+With the introduction of default methods in interfaces, it seems that the abstract classes are same as interface in java 8. However this is not entirely true, even though we can now have concrete methods(methods with body) in interfaces just like abstract class, this doesn’t mean that they are same. There are still few differences between them, one of them is that abstract class can have constructor while in interfaces we can’t have constructors.
+
+The purpose of interface is to provide full abstraction, while the purpose of abstract class is to provide partial abstraction. This still holds true. The interface is like a blueprint for your class, with the introduction of default methods you can simply say that we can add additional features in the interfaces without affecting the end user classes.
+
+Default Method and Multiple Inheritance
+The multiple inheritance problem can occur, when we have two interfaces with the default methods of same signature. Lets take an example.
+
+interface MyInterface{  
+ 
+    default void newMethod(){  
+        System.out.println("Newly added default method");  
+    }  
+    void existingMethod(String str);  
+}  
+interface MyInterface2{  
+	 
+    default void newMethod(){  
+        System.out.println("Newly added default method");  
+    }  
+    void disp(String str);  
+} 
+public class Example implements MyInterface, MyInterface2{ 
+	// implementing abstract methods
+    public void existingMethod(String str){           
+        System.out.println("String is: "+str);  
+    }  
+    public void disp(String str){
+    	System.out.println("String is: "+str); 
+    }
+    
+    public static void main(String[] args) {  
+    	Example obj = new Example();
+    	
+    	//calling the default method of interface
+        obj.newMethod();     
+  
+  
+    }  
+}
+Output:
+
+Error: Duplicate default methods named newMethod with the parameters () and () are inherited from the types MyInterface2 and MyInterface
+This is because we have the same method in both the interface and the compiler is not sure which method to be invoked.
+
+How to solve this issue?
+To solve this problem, we can implement this method in the implementation class like this:
+
+interface MyInterface{  
+ 
+    default void newMethod(){  
+        System.out.println("Newly added default method");  
+    }  
+    void existingMethod(String str);  
+}  
+interface MyInterface2{  
+	 
+    default void newMethod(){  
+        System.out.println("Newly added default method");  
+    }  
+    void disp(String str);  
+} 
+public class Example implements MyInterface, MyInterface2{ 
+	// implementing abstract methods
+    public void existingMethod(String str){           
+        System.out.println("String is: "+str);  
+    }  
+    public void disp(String str){
+    	System.out.println("String is: "+str); 
+    }
+    //Implementation of duplicate default method
+    public void newMethod(){  
+        System.out.println("Implementation of default method");  
+    }  
+    public static void main(String[] args) {  
+    	Example obj = new Example();
+    	
+    	//calling the default method of interface
+        obj.newMethod();     
+  
+  
+    }  
+}
+Output:
+
+Implementation of default method
