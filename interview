@@ -645,4 +645,13 @@ public class MapSortingExamples {
     }
 }
 
+What is MetaSpace? How does it differ from PermGen?
+
+PremGen: MetaData information of classes was stored in PremGen (Permanent-Generation) memory type before Java 8. PremGen is fixed in size and cannot be dynamically resized. It was a contiguous Java Heap Memory.
+
+MetaSpace: Java 8 stores the MetaData of classes in native memory called 'MetaSpace'. 
+It is not a contiguous Heap Memory and hence can be grown dynamically which helps to overcome the size constraints. 
+This improves the garbage collection, auto-tuning, and de-allocation of metadata.
+
+
 
